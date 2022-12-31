@@ -1,0 +1,21 @@
+local Generate Num GenF Out1 Out2 Out3 in
+
+fun{Generate}
+	Num = newCell - 1
+
+fun{$}
+	Num :=(@Num + 1)
+	@Num
+	end
+end
+
+GenF = {Generate}
+Out1 = {GenF} // returns 0
+Out2 = {GenF} // returns 1
+Out3 = {GenF} // returns 2
+
+skip Browse Out1
+skip Browse Out2
+skip Browse Out3
+
+end 

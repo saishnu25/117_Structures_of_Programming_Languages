@@ -1,0 +1,53 @@
+local NewQueue S Pu PPo IsE Av A1 A2 B1 B2 V1 V2 V3 Out Appened Out 1 in
+Append = fun {$ Ls Ms}
+case Ls
+    of nil then (Ms | nil)
+    []'|'(1:X 2:Lr) then Y in 
+    Y = {Append Lr Ms}
+        (X|Y)
+        end
+    end 
+
+    fun {NewQueue L}
+        C = newCell nil
+        S = newCell 0
+        Push Pop IsEmpty SlotsAvailable in 
+        proc {Push X}
+        if(@S == L) then 
+            B = @C in 
+            case B of '|' (1:Y 2:S1) then C:= S1 end 
+            C:= {Append @C X}
+            S:= (@S+1)
+        else
+            C:={Append @C X}
+            S:= (@S+1)
+        end
+    end 
+
+    fun {Pop} B = @C in
+        case B of '|' (1:X 2:S1) then C:= S1 X end 
+    end 
+    fun{IsEmpty} (@C == nil) end 
+    fun{SlotsAvailable} B in 
+        B = (L - @S)
+        B 
+    end 
+    ops(push:Push pop:Pop isEmpty:IsEmpty avail:SlotsAvailable)
+    end 
+
+    S = {NewQueue 2}
+    S = ops(push:Pu pop:Po isEmpty:IsE avail:Av)
+    B1 = {IsE}
+    A1 = {Av}
+    {Pu 1}
+    {Pu 2}
+    A2 = {Av}
+    {Pu 3}
+    B2 = {IsE}
+    V1 = {Po}
+    V2 = {Po}
+    V3 = {Po}
+    Out = [V1 V2 V3 B1 B2 A1 A2]
+    skip Browse Out   // Out : [ 2  3  Unbound  true()  false()  2  0 ]
+
+end 
