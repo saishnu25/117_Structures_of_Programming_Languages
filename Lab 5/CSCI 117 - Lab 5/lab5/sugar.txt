@@ -1,0 +1,69 @@
+// 1) nested if, nested case
+
+local A B in 
+   A = false
+
+   if true then                    // expression in if-condition
+      skip Browse A
+   elseif B then                   // elsif can be repeated 0 or more times
+      skip Basic
+   else                            // else is optional
+      skip Basic
+   end
+
+   case A
+      of tree() then skip Basic
+      [] false then skip Basic     // nesting symbol is [] followed by record
+      [] true then skip Basic
+   else                            // else is optional
+      skip Basic
+   end
+end
+
+
+// 2) more expressions; note that applications of primitive binary operators
+//    ==, <, >, +, -, *, mod must be enclosed in parentheses for hoz
+
+local A in 
+   A = 2
+   if (A == 1) then                // expression in condition
+      skip Basic
+   end
+   if (A == (3-1)) then            // nested expression
+      skip Browse A
+   end
+end
+
+
+// 3) "in" declaration 
+
+local T = tree(1:3 2:T) X Y in             // Variable = value, variables
+   local tree(1:A 2:B) = T in
+      if (1==1) then B = (5-2) Z in        // "local" not necessary
+         skip Browse B
+      end
+   end
+end
+
+
+// 4) expressions in place of statements
+
+local Fun R in
+   Fun = fun {$ X}     // function returns a value (last item of function)
+            X          // returned value
+         end
+   R = {Fun 4}         // Var = Expression
+   skip Browse R
+end
+
+
+// 5) Bind fun
+
+local A B in
+   skip Basic
+   A = rdc(1:4 2:B 3:(B#B))         // Bind with pattern
+   B = (5 + (3 - 4))                // Bind with expression
+   skip Browse A
+   skip Browse B
+   skip Store
+end

@@ -1,0 +1,1 @@
+[local ["X"] [local ["Y"] [X = 1,local ["EXU1","EXU2"] [EXU1 = X,EXU2 = X,Y = pair(1:EXU1 2:EXU2)],case Y of pair(1:Z 2:W) then [local ["S"] [local ["EXU1","EXU2","EXU3"] [EXU1 = Z,EXU2 = W,EXU3 = S,"IntPlus" "EXU1" "EXU2" "EXU3"],skip/f]] else [skip]]]]

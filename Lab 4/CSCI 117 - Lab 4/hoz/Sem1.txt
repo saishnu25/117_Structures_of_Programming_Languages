@@ -1,0 +1,59 @@
+// Run this program through the Oz interpreter by calling
+//    runFull "declarative" "Sem1.txt" "Sem1.out"
+// Explain the resulting store
+
+local X in
+  local Y in
+    X = 1
+    Y = pair(1:X 2:X)
+    case Y of pair(1:Z 2:W) then 
+      local S in 
+        {IntPlus Z W S}
+        skip Full
+      end
+      else
+        skip Basic
+    end
+  end
+end
+
+
+/*
+
+** Output from Command Prompt by running Sem1.txt ** 
+
+Store : ((15, 12), 2),
+((14, 13, 11, 10, 8), 1),
+((9), pair(1:10 2:11)),
+((1), Primitive Operation),
+((2), Primitive Operation),
+((3), Primitive Operation),
+((4), Primitive Operation),
+((5), Primitive Operation),
+((6), Primitive Operation),
+((7), Primitive Operation)
+
+Mutable Store: Empty
+Current Environment : ("S" -> 12, "Z" -> 10, "W" -> 11, "Y" -> 9, "X" -> 8, "IntPlus" -> 1, "IntMinus" -> 2, "Eq" -> 3, "GT" -> 4, "LT" -> 5, "Mod" -> 6, "IntMultiply" -> 7)
+Stack : ""
+
+
+** Output from Sem1.out **
+
+[local ["X"] [local ["Y"] [X = 1,local ["EXU1","EXU2"] 
+[EXU1 = X,EXU2 = X,Y = pair(1:EXU1 2:EXU2)],case Y of pair(1:Z 2:W) 
+then [local ["S"] [local ["EXU1","EXU2","EXU3"]
+[EXU1 = Z,EXU2 = W,EXU3 = S,"IntPlus" "EXU1" "EXU2" "EXU3"],skip/f]] else [skip]]]]
+
+
+** Explanation **
+
+Sem1 is a case statement program. This statement can be used for pattern matching with a variable within the list given. If it matches with the list, it will move
+to the next statement, <s1> then to the next statement, <s2>. This will continue until the variables do not satisfy with each other/not within
+its bounds and would cause an error. In this file, variable X will be binded to 1 as seen above, X = 1, and it will add the information into the store. As for Y,
+it is binded to 1:Z and 2:W in the program. For variable S, it will bind to the bounds of Z, W, S, and skip as they are within the scope of local S. In the Command
+Prompt, it displayed the Store, Mutable Store, and the Current Environment which is: ("S" -> 12, "Z" -> 10, "W" -> 11, "Y" -> 9, "X" -> 8, "IntPlus" -> 1, 
+"IntMinus" -> 2, "Eq" -> 3, "GT" -> 4, "LT" -> 5, "Mod" -> 6, "IntMultiply" -> 7). Sem1.out looked like it displayed a form of syntax that the program was following. 
+
+*/
+

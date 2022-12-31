@@ -1,0 +1,62 @@
+// Run this program through the Oz interpreter by calling
+//    runFull "declarative" "Sem1.txt" "Sem1.out"
+// Explain the resulting store
+
+local P1 P2 K1 K2 A1 A2 A3 A4 DB1 DB2 F1 F2 F3 F4 in
+	P1 = person(kid:K1 age:A1 dob:DB1 food:F3)
+	P2 = person(kid:K2 age:A2 dob:DB2 food:F4)
+	K1 = kid(age:A3 food:F1)
+	K2 = kid(age:A4 food:F2)
+	A3 = 12
+	F2 = spaghetti()
+	A1 = 54
+	DB2 = 1978
+	P1 = P2
+    skip Full
+end
+
+/*
+
+** Output from Command Prompt by running Sem3.txt **
+
+Store : ((31, 18, 33, 19), spaghetti()),
+((30, 14, 32, 15), 12),
+((22, 10, 26, 11), kid(age:30 food:31)),
+((25, 20, 29, 21), Unbound),
+((24, 16, 28, 17), 1978),
+((23, 12, 27, 13), 54),
+((8, 9), person(age:23 dob:24 food:25 kid:22)),
+((1), Primitive Operation),
+((2), Primitive Operation),
+((3), Primitive Operation),
+((4), Primitive Operation),
+((5), Primitive Operation),
+((6), Primitive Operation),
+((7), Primitive Operation)
+
+Mutable Store: Empty
+Current Environment : ("P1" -> 8, "P2" -> 9, "K1" -> 10, "K2" -> 11, "A1" -> 12, "A2" -> 13, "A3" -> 14, "A4" -> 15, "DB1" -> 16, "DB2" -> 17, "F1" -> 18, "F2" -> 19, "F3" -> 20, "F4" -> 21, "IntPlus" -> 1, "IntMinus" -> 2, "Eq" -> 3, "GT" -> 4, "LT" -> 5, "Mod" -> 6, "IntMultiply" -> 7)
+Stack : ""
+
+
+** Output from Sem3.out **
+
+[local ["P1","P2","K1","K2","A1","A2","A3","A4","DB1","DB2","F1","F2","F3","F4"] [local ["EXU1","EXU2","EXU3","EXU4"] 
+[EXU1 = K1,EXU2 = A1,EXU3 = DB1,EXU4 = F3,P1 = person(kid:EXU1 age:EXU2 dob:EXU3 food:EXU4)],
+local ["EXU1","EXU2","EXU3","EXU4"] [EXU1 = K2,EXU2 = A2,EXU3 = DB2,EXU4 = F4,P2 = person(kid:EXU1 age:EXU2 dob:EXU3 food:EXU4)],
+local ["EXU1","EXU2"] [EXU1 = A3,EXU2 = F1,K1 = kid(age:EXU1 food:EXU2)],local ["EXU1","EXU2"] 
+[EXU1 = A4,EXU2 = F2,K2 = kid(age:EXU1 food:EXU2)],A3 = 12,F2 = spaghetti(),A1 = 54,DB2 = 1978,P1 = P2,skip/f]]
+
+
+** Explanation **
+
+Sem3 uses unification where P1, P2, K1, K2, A1, A2, A3, A4, DB1, DB2, 
+F1, F2, F3, and F4 are assigned in the procedure. Unification takes two 
+expressions and make them identical by finding a substitution. These variables
+are all unifieid and are set to be equal to another variable, as seen above,
+kid, age, dob, and food are assigned intergers. This program basically deals with
+the data of two people who are P1 and P2. The command prompt then outputs the result
+followed by the Mutable Store, Current Environment, and Stack. Sem3.out shows the 
+basis of the code where what form of syntax is used for this program. 
+
+*/

@@ -1,0 +1,77 @@
+// Haskell version of fib:
+//    fib :: Int -> Int
+//    fib 0 = 1
+//    fib 1 = 1
+//    fib x = fib (x-1) + fib (x-2)
+//
+// Rewrite fib in Oz kernel syntax using the template below, including
+// a "skip stack" command added to the first base case, using the 
+// primitive operations {Eq X Y B}, {IntMinus X Y A}, and {IntPlus X Y A}.
+// 
+// Run through the Oz interpreter by calling
+//    runFull "declarative" "fib_oz.txt" "fib_oz.out"
+// after ghci fib_oz.txt and give a brief explanation of each of the stack outputs.
+
+local Fib X Result Fibit Zero One in
+  Zero = 0 
+  One = 1 
+  Fibit = proc {$ In A B Out}
+    local B0 B1 in 
+      {Eq In Zero B0}
+      {Eq In One B1}
+      if B0 then 
+        Out = A 
+      else 
+        if B1 then 
+          Out = B 
+          skip Stack 
+        else
+          local J SUM in 
+            {IntMinus In One J}
+            {IntPlus A B SUM}
+            {Fibit J B SUM Out}
+          end
+        end
+      end 
+    end 
+  end 
+  X = 10
+  Fib = proc {$ X Result}
+    {Fibit X One One Result}
+  end 
+  {Fib X Result}
+  skip Browse Result
+end
+
+
+/*
+
+** Output from Command Prompt by running fib_oz.txt **
+
+Stack : "skip/BResult"
+
+Result : 89
+
+
+** Output from fib_oz.out **
+
+[local ["Fib","X","Result","Fibit","Zero","One"] 
+[Zero = 0,One = 1,Fibit = proc {$ In A B Out} [local ["B0","B1"] 
+[local ["EXU1","EXU2","EXU3"] [EXU1 = In,EXU2 = Zero,EXU3 = B0,"Eq" "EXU1" "EXU2" "EXU3"],
+local ["EXU1","EXU2","EXU3"] [EXU1 = In,EXU2 = One,EXU3 = B1,"Eq" "EXU1" "EXU2" "EXU3"],
+local ["EXU1"] [EXU1 = B0,if EXU1 then [Out = A] else [local ["EXU1"] [EXU1 = B1,if EXU1 then [Out = B,skip/st] 
+else [local ["J","SUM"] [local ["EXU1","EXU2","EXU3"] [EXU1 = In,EXU2 = One,EXU3 = J,"IntMinus" "EXU1" "EXU2" "EXU3"],
+local ["EXU1","EXU2","EXU3"] [EXU1 = A,EXU2 = B,EXU3 = SUM,"IntPlus" "EXU1" "EXU2" "EXU3"],
+local ["EXU1","EXU2","EXU3","EXU4"] [EXU1 = J,EXU2 = B,EXU3 = SUM,EXU4 = Out,"Fibit" "EXU1" "EXU2" "EXU3" "EXU4"]]]]]]]],
+X = 10,Fib = proc {$ X Result} [local ["EXU1","EXU2","EXU3","EXU4"] [EXU1 = X,EXU2 = One,EXU3 = One,EXU4 = Result,"Fibit" "EXU1" "EXU2" "EXU3" "EXU4"]],
+local ["EXU1","EXU2"] [EXU1 = X,EXU2 = Result,"Fib" "EXU1" "EXU2"],skip/BResult]]
+
+
+** Explanation ** 
+
+I used a iterative method to solve this question to get the fibonacci sequence as it is more efficient as compared to using the recurive method. 
+Using the iterative method, the Oz compiler will only be dealing with 1 stack until a result is returned. The stack will start from the index of 0
+at the zero-th index and 1 at the first index. If the number is not zero or one, the sequence will skip the stack and proceed to the J SUM section 
+that will store J-1 into A and J-2 to B. 
+
+*/

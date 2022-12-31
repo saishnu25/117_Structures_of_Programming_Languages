@@ -1,0 +1,71 @@
+// Run this program through the Oz interpreter by calling
+//    runFull "declarative" "Sem2.txt" "Sem2.out"
+// Explain the resulting store
+
+local Max Y in
+  Max = proc {$ X}
+    local B in 
+        {GT X Y B}
+        if B then
+          skip Browse X
+        else
+          skip Browse Y
+        end
+    end
+  end
+  Y = 3
+  local X Y in 
+    Y = 6
+    X = 4
+    skip Full
+    {Max X}
+  end
+end
+
+
+/*
+
+** Output from Command Prompt by running Sem2.txt ** 
+
+Store : ((10), 4),
+((11), 6),
+((8), proc(["X"],[local ["B"] [local ["EXU1","EXU2","EXU3"] [EXU1 = X,EXU2 = Y,EXU3 = B,"GT" "EXU1" "EXU2" "EXU3"],local ["EXU1"] [EXU1 = B,if EXU1 then [skip/BX] else [skip/BY]]]],[("Y",9),("GT",4)])),
+((9), 3),
+((1), Primitive Operation),
+((2), Primitive Operation),
+((3), Primitive Operation),
+((4), Primitive Operation),
+((5), Primitive Operation),
+((6), Primitive Operation),
+((7), Primitive Operation)
+
+Mutable Store: Empty
+Current Environment : ("X" -> 10, "Y" -> 11, "Max" -> 8, "Y" -> 9, "IntPlus" -> 1, "IntMinus" -> 2, "Eq" -> 3, "GT" -> 4, "LT" -> 5, "Mod" -> 6, "IntMultiply" -> 7)
+Stack : "local [\"EXU1\"] [EXU1 = X,\"Max\" \"EXU1\"]"
+
+X : 4
+
+
+** Output from Sem2.out **
+
+[local ["Max","Y"] [Max = proc {$ X} [local ["B"] 
+[local ["EXU1","EXU2","EXU3"] [EXU1 = X,EXU2 = Y,EXU3 = B,"GT" "EXU1" "EXU2" "EXU3"],
+local ["EXU1"] [EXU1 = B,if EXU1 then [skip/BX] else [skip/BY]]]],
+Y = 3,local ["X","Y"] [Y = 6,X = 4,skip/f,local ["EXU1"] [EXU1 = X,"Max" "EXU1"]]]]
+
+
+** Explanation **
+
+The program Sem2.txt is a procedure type of program. The procedure Max Y was created at the beginning 
+where it will take an argument and compare it with another variable inside the program. In this case, 
+it will compare it with the variable X that is found inside. It would then check to see if X is greater 
+than Y, if it is greater, it will output X otherwise it will output Y. Procedure B was also assigned to
+determine if both variables X and Y are either greater or less than and it would determine the respective
+boolean result, if X is greater, it would result in true otherwise it would skip X and vice versa. So, for 
+the procedure Max Y, we have ((8),Max) and we have local variable Y which is unbounded at the beginning 
+which will be (9), bound). After that 3 was assigned to Y so it would become (9,3). In another procedure, 
+X and Y were reassigned where X = 4 and Y = 6. So now X = (10, unbound) and Y = (11, unbound). It would 
+then become X = (10,4) and Y = (11,6). After that, it outputs the Mutable Store, Current Environment, 
+Stack, and X : 4. 
+
+*/

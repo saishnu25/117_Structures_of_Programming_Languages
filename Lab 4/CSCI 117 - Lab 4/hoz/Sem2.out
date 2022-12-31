@@ -1,0 +1,1 @@
+[local ["Max","Y"] [Max = proc {$ X} [local ["B"] [local ["EXU1","EXU2","EXU3"] [EXU1 = X,EXU2 = Y,EXU3 = B,"GT" "EXU1" "EXU2" "EXU3"],local ["EXU1"] [EXU1 = B,if EXU1 then [skip/BX] else [skip/BY]]]],Y = 3,local ["X","Y"] [Y = 6,X = 4,skip/f,local ["EXU1"] [EXU1 = X,"Max" "EXU1"]]]]

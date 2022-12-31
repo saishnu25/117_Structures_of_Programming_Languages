@@ -1,0 +1,145 @@
+// Append example with difference lists
+//local L1 End1 L2 End2 H1 T1 H2 T2 LNew in
+  // L1 = ((1|(2|End1)) # End1)        // List [1,2] as a difference list
+  // L2 = ((3|(4|End2)) # End2)        // List [3,4] as a difference list
+   
+  // L1 = (H1 # T1)                    // Pattern match, name head and tail
+  // L2 = (H2 # T2)                    // Pattern match, name head and tail
+  // T1 = H2                           // Bind/unify tail of L1 with head of L2
+
+  // LNew = (L1 # T2)                  // Build a new difference list
+   
+  // skip Browse LNew
+  // skip Full
+//end
+
+// Testing iterative Reverse function
+local Reverse L1 Out1 in 
+
+   // O(n) version of Reverse on p 148 (modified for hoz):
+   fun {Reverse Xs} Y1 ReverseD in
+      proc {ReverseD Xs Y1 Y}
+         case Xs
+         of nil then Y1 = Y
+         [] '|'(1:X 2:Xr) then {ReverseD Xr Y1 (X|Y)}
+         end
+      end
+      {ReverseD Xs Y1 nil}
+      Y1
+   end
+
+   L1 = (1|(2|(3|(4|nil))))
+   Out1 = {Reverse L1}
+   skip Browse Out1
+   skip Full
+end
+
+
+/*
+
+** Output from append.txt **
+
+LNew : '#'(1:35 2:36)
+
+Store : ((36, 24, 28, 11, 33, 15), Unbound),
+((35, 8, 31), '#'(1:17 2:18)),
+((18, 22, 9, 30, 13, 23, 32, 14), '|'(1:25 2:26)),
+((10, 34), '#'(1:23 2:24)),
+((17, 29, 12), '|'(1:19 2:20)),
+((27), 4),
+((25), 3),
+((26), '|'(1:27 2:28)),
+((21), 2),
+((19), 1),
+((20), '|'(1:21 2:22)),
+((16), '#'(1:35 2:36)),
+((1), Primitive Operation),
+((2), Primitive Operation),
+((3), Primitive Operation),
+((4), Primitive Operation),
+((5), Primitive Operation),
+((6), Primitive Operation),
+((7), Primitive Operation)
+
+Mutable Store: Empty
+Current Environment : ("L1" -> 8, "End1" -> 9, "L2" -> 10, "End2" -> 11, "H1" -> 12, "T1" -> 13, "H2" -> 14, "T2" -> 15, "LNew" -> 16, "IntPlus" -> 1, "IntMinus" -> 2, "Eq" -> 3, "GT" -> 4, "LT" -> 5, "Mod" -> 6, "IntMultiply" -> 7)
+Stack : "local [\"Reverse\",\"L1\",\"Out1\"] [Reverse = proc {$ Xs EXU1} [local [\"Y1\",\"ReverseD\"] [ReverseD = proc {$ Xs Y1 Y} [case Xs of nil() then [Y1 = Y] else [case Xs of '|'(1:X 2:Xr) then [local [\"EXU2\",\"EXU3\",\"EXU4\"] [EXU2 = Xr,EXU3 = Y1,local [\"EXU5\",\"EXU6\"] [EXU5 = X,EXU6 = Y,EXU4 = '|'(1:EXU5 2:EXU6)],\"ReverseD\" \"EXU2\" \"EXU3\" \"EXU4\"]] else [skip]]],local [\"EXU2\",\"EXU3\",\"EXU4\"] [EXU2 = Xs,EXU3 = Y1,EXU4 = nil(),\"ReverseD\" \"EXU2\" \"EXU3\" \"EXU4\"],EXU1 = Y1]],local [\"EXU1\",\"EXU2\"] [EXU1 = 1,local [\"EXU3\",\"EXU4\"] [EXU3 = 2,local [\"EXU5\",\"EXU6\"] [EXU5 = 3,local [\"EXU7\",\"EXU8\"] [EXU7 = 4,EXU8 = nil(),EXU6 = '|'(1:EXU7 2:EXU8)],EXU4 = '|'(1:EXU5 2:EXU6)],EXU2 = '|'(1:EXU3 2:EXU4)],L1 = '|'(1:EXU1 2:EXU2)],local [\"EXU1\"] [EXU1 = L1,\"Reverse\" \"EXU1\" \"Out1\"],skip/BOut1,skip/f]"
+
+Out1 : [ 4  3  2  1 ]
+
+Store : ((39, 70, 65, 60, 55, 52, 49, 71), '|'(1:72 2:73)),
+((73, 66), '|'(1:67 2:68)),
+((72, 46), 4),
+((69, 47), nil()),
+((68, 61), '|'(1:62 2:63)),
+((67, 44), 3),
+((64, 45), '|'(1:46 2:47)),
+((63, 56), '|'(1:57 2:58)),
+((62, 42), 2),
+((59, 43), '|'(1:44 2:45)),
+((58, 53), nil()),
+((57, 40), 1),
+((54, 41), '|'(1:42 2:43)),
+((51, 48, 38), '|'(1:40 2:41)),
+((50), proc(["Xs","Y1","Y"],[case Xs of nil() then [Y1 = Y] else [case Xs of '|'(1:X 2:Xr) then [local ["EXU2","EXU3","EXU4"] [EXU2 = Xr,EXU3 = Y1,local ["EXU5","EXU6"] [EXU5 = X,EXU6 = Y,EXU4 = '|'(1:EXU5 2:EXU6)],"ReverseD" "EXU2" "EXU3" "EXU4"]] else [skip]]],[("ReverseD",50)])),
+((37), proc(["Xs","EXU1"],[local ["Y1","ReverseD"] [ReverseD = proc {$ Xs Y1 Y} [case Xs of nil() then [Y1 = Y] else [case Xs of '|'(1:X 2:Xr) then [local ["EXU2","EXU3","EXU4"] [EXU2 = Xr,EXU3 = Y1,local ["EXU5","EXU6"] [EXU5 = X,EXU6 = Y,EXU4 = '|'(1:EXU5 2:EXU6)],"ReverseD" "EXU2" "EXU3" "EXU4"]] else [skip]]],local ["EXU2","EXU3","EXU4"] [EXU2 = Xs,EXU3 = Y1,EXU4 = nil(),"ReverseD" "EXU2" "EXU3" "EXU4"],EXU1 = Y1]],[])),
+((36, 24, 28, 11, 33, 15), Unbound),
+((35, 8, 31), '#'(1:17 2:18)),
+((18, 22, 9, 30, 13, 23, 32, 14), '|'(1:25 2:26)),
+((10, 34), '#'(1:23 2:24)),
+((17, 29, 12), '|'(1:19 2:20)),
+((27), 4),
+((25), 3),
+((26), '|'(1:27 2:28)),
+((21), 2),
+((19), 1),
+((20), '|'(1:21 2:22)),
+((16), '#'(1:35 2:36)),
+((1), Primitive Operation),
+((2), Primitive Operation),
+((3), Primitive Operation),
+((4), Primitive Operation),
+((5), Primitive Operation),
+((6), Primitive Operation),
+((7), Primitive Operation)
+
+Mutable Store: Empty
+Current Environment : ("Reverse" -> 37, "L1" -> 38, "Out1" -> 39, "IntPlus" -> 1, "IntMinus" -> 2, "Eq" -> 3, "GT" -> 4, "LT" -> 5, "Mod" -> 6, "IntMultiply" -> 7)
+Stack : ""
+
+
+
+** Output from append.out **
+[local ["L1","End1","L2","End2","H1","T1","H2","T2","LNew"] [local ["EXU1","EXU2"] [local ["EXU3","EXU4"] [EXU3 = 1,local ["EXU5","EXU6"] [EXU5 = 2,EXU6 = End1,EXU4 = '|'(1:EXU5 2:EXU6)],EXU1 = '|'(1:EXU3 2:EXU4)],EXU2 = End1,L1 = '#'(1:EXU1 2:EXU2)],local ["EXU1","EXU2"] [local ["EXU3","EXU4"] [EXU3 = 3,local ["EXU5","EXU6"] [EXU5 = 4,EXU6 = End2,EXU4 = '|'(1:EXU5 2:EXU6)],EXU1 = '|'(1:EXU3 2:EXU4)],EXU2 = End2,L2 = '#'(1:EXU1 2:EXU2)],local ["EXU1","EXU2"] [EXU1 = H1,EXU2 = T1,L1 = '#'(1:EXU1 2:EXU2)],local ["EXU1","EXU2"] [EXU1 = H2,EXU2 = T2,L2 = '#'(1:EXU1 2:EXU2)],T1 = H2,local ["EXU1","EXU2"] [EXU1 = L1,EXU2 = T2,LNew = '#'(1:EXU1 2:EXU2)],skip/BLNew,skip/f],local ["Reverse","L1","Out1"] [Reverse = proc {$ Xs EXU1} [local ["Y1","ReverseD"] [ReverseD = proc {$ Xs Y1 Y} [case Xs of nil() then [Y1 = Y] else [case Xs of '|'(1:X 2:Xr) then [local ["EXU2","EXU3","EXU4"] [EXU2 = Xr,EXU3 = Y1,local ["EXU5","EXU6"] [EXU5 = X,EXU6 = Y,EXU4 = '|'(1:EXU5 2:EXU6)],"ReverseD" "EXU2" "EXU3" "EXU4"]] else [skip]]],local ["EXU2","EXU3","EXU4"] [EXU2 = Xs,EXU3 = Y1,EXU4 = nil(),"ReverseD" "EXU2" "EXU3" "EXU4"],EXU1 = Y1]],local ["EXU1","EXU2"] [EXU1 = 1,local ["EXU3","EXU4"] [EXU3 = 2,local ["EXU5","EXU6"] [EXU5 = 3,local ["EXU7","EXU8"] [EXU7 = 4,EXU8 = nil(),EXU6 = '|'(1:EXU7 2:EXU8)],EXU4 = '|'(1:EXU5 2:EXU6)],EXU2 = '|'(1:EXU3 2:EXU4)],L1 = '|'(1:EXU1 2:EXU2)],local ["EXU1"] [EXU1 = L1,"Reverse" "EXU1" "Out1"],skip/BOut1,skip/f]]
+
+*/
+
+
+local L1N N LNew Reverse in 
+   N = nil
+   Reverse = fun  {$ Xs}
+      local ReverseD Y1 in 
+         ReverseD = proc {$ Xs Y1 Y}
+            case Xs 
+            of nil then Y1 = Y
+            []'|'(1:X 2:Xr) then Z in 
+            Z = (X|Y)
+            {ReverseD Xr Y1 Z}
+            end 
+         end 
+      {ReverseD Xs Y1 N}
+      Y1
+      end
+   end 
+ L1N = (1|(2|(3|(4|nil))))
+ LNew = {Reverse L1N}
+ skip Browse LNew 
+ skip Full 
+ end 
+
+
+
+
+
+
+

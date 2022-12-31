@@ -1,0 +1,141 @@
+// 1) nested if, nested case 
+
+local A B in
+  A = false
+	local C1 in
+		C1 = true
+			if C1 then 
+				skip Browse A
+			else
+				if B then
+					skip Basic
+				else
+					skip Basic
+			end
+		end
+	end
+
+case A of tree() then
+	skip Basic
+ else
+    case A of false() then 
+	 	skip Basic
+	else 
+		skip Basic 
+		end 
+	end
+	end
+end
+
+
+// 2) more expressions; note that applications of primitive binary operators
+//    ==, <, >, +, -, *, mod must be enclosed in parentheses for hoz
+
+local A One Three in 
+	A = 2
+	One = 1
+	Three = 3
+	local F1 in {Eq A One F1}
+		if F1 then	
+			skip Basic 
+		else 
+			skip Basic 
+		end
+	end 
+
+	local In F3 in 
+		{IntMinus Three One In}
+		{Eq A in F3}
+		if F3 then 
+			skip Browse A 
+		else 
+			skip Basic 
+		end 
+	end 
+end 
+
+
+// 3) "in" declaration 
+
+local T X Y Three in 
+	Three = 3 
+T = tree(1:Three 2:T)
+local T2 A B in 
+T2 = tree(1:A 2:B)
+T2 = T 
+	local One C in 
+	One = 1
+	{Eq One One C}
+	if C then 
+	local B Z H0 H1 in 
+		H0 = 5
+		H1 = 2
+		{IntMinus H0 H1 B}
+		skip Browse B 
+	end 
+		else skip Basic 
+		end
+	end 
+end 
+
+// 4) expressions in place of statements
+
+local Fun R in 
+	Fun = proc {$ X ProcOut()}
+	ProcOut() = X
+end 
+	local R1 in 
+		R1 = 4
+		{Fun R1 R}
+	end
+skip Browse R 
+	end 
+
+
+// 5) Bind fun
+
+local A B in 
+	skip Basic 
+	local Five Three Four E1 in
+		Five = 5
+		Three = 3
+		Four  = 4
+		local P in 
+			P = '#'(1:B 2:B)
+			A = rdc(1:Four 2:B 3:P)
+			{IntMinus Three Four E1}
+			{IntMinus Five E1 B}
+			skip Browse A 
+			skip Browse B 
+			skip store 
+		end 
+	end
+end 
+
+/*
+** Output from sugar2kern.txt **
+
+[local ["A","B"] [A = false(),local ["EXU1"] [EXU1 = true(),if EXU1 then [skip/BA] else [local ["EXU2"] 
+[EXU2 = B,if EXU2 then [skip] else [skip]]]],case A of tree() then [skip] else [case A of false() then [skip] 
+else [case A of true() then [skip] else [skip]]]],local ["A"] [A = 2,local ["EXU1"] [local ["EXU2","EXU3"] 
+[EXU2 = A,EXU3 = 1,"Eq" "EXU2" "EXU3" "EXU1"],if EXU1 then [skip] else [skip]],local ["EXU1"] [local ["EXU2","EXU3"] 
+[EXU2 = A,local ["EXU5","EXU6"] [EXU5 = 3,EXU6 = 1,"IntMinus" "EXU5" "EXU6" "EXU3"],"Eq" "EXU2" "EXU3" "EXU1"], 
+if EXU1 then [skip/BA] else [skip]]],local ["X","Y"] [local ["T"] [local ["EXU1","EXU2"] 
+[EXU1 = 3,EXU2 = T,T = tree(1:EXU1 2:EXU2)],local ["A","B","PTU0"] [PTU0 = tree(1:A 2:B),PTU0 = T, 
+local ["EXU1"] [local ["EXU2","EXU3"] [EXU2 = 1,EXU3 = 1,"Eq" "EXU2" "EXU3" "EXU1"], 
+if EXU1 then [local ["Z"] [local ["B"] [local ["EXU1","EXU2"] [EXU1 = 5,EXU2 = 2,"IntMinus" "EXU1" "EXU2" "B"],skip/BB]]] 
+else [skip]]]]],local ["Fun","R"] [Fun = proc {$ X EXU1} [EXU1 = X],local ["EXU1"] [EXU1 = 4,"Fun" "EXU1" "R"],skip/BR], 
+local ["A","B"] [skip,local ["EXU1","EXU2","EXU3"] [EXU1 = 4,EXU2 = B,local ["EXU4","EXU5"] [EXU4 = B,EXU5 = B, 
+EXU3 = '#'(1:EXU4 2:EXU5)],A = rdc(1:EXU1 2:EXU2 3:EXU3)],local ["EXU1","EXU2"] [EXU1 = 5,local ["EXU4","EXU5"] 
+[EXU4 = 3,EXU5 = 4,"IntMinus" "EXU4" "EXU5" "EXU2"],"IntPlus" "EXU1" "EXU2" "B"],skip/BA,skip/BB,skip/s]]
+
+
+** Observation and Explanation ** 
+After taking a look at the output by the sugar2kern.txt file, it can be seen that the number of local statements that were 
+declared in the sugarKernel.txt file was more as compared to the sugar2kern file. In the sugar2kern file, you are allowed 
+to bind two variables together within the local statement that was created. For example, as seen above, you are able to 
+put in in a way where it's: local A B in as compared to the sugar2kern file which does it separately, local A in local B in. 
+I have also realised that you must put an 'end' must be added at the end of conditional statements like if-else. 
+
+
+*/
