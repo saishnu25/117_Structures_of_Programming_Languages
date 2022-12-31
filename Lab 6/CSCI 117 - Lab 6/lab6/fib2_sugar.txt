@@ -1,0 +1,17 @@
+local Fib Fib1 X R in
+  Fib1 = fun {$ X N M} 
+    if (X == 0) then
+      M
+    elseif (X == 1) then
+      M
+    else
+      {Fib1 (X-1) M (N+M)}
+    end
+  end
+  Fib = fun {$ X}
+    {Fib1 X 1 1}
+  end
+  X = 12
+  R = {Fib X}
+  skip Browse R
+end

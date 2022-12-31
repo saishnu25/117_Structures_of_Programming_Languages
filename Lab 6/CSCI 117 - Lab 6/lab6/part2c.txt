@@ -1,0 +1,18 @@
+N = 0
+L = 100
+thread {Producer N L P}
+    skip Browse P 
+end
+
+thread {OddFilter P F}
+    skip Browse F 
+end 
+
+thread Add = {Consumer F}
+    skip Browse Add 
+end 
+
+    skip Browse P
+    skip Browse F 
+    skip Browse Add 
+end 

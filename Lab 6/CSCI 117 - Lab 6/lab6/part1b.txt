@@ -1,0 +1,12 @@
+local X Y T in 
+  thread Y = X end
+  X = 3
+  skip Browse Y
+end
+
+local T1 T2 in
+ T2 = thread 3 end
+ T1 = thread (4+3) end
+ skip Browse T2
+ skip Browse T1
+end

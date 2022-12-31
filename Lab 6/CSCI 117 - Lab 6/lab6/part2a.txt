@@ -1,0 +1,30 @@
+local Producer Consumer OddFilter Filter N L P F Add in
+    Producer = proc {$ N Limit Out}
+    if (N<Limit) then T N1 in
+        Out = (N|T)
+        N1 = (N + 1)
+        {Producer N1 Limit T}
+    else Out = nil
+    end
+end
+OddFilter = proc {$ P Out}
+  Filter = fun {$ 01 T1}
+	case 01 of nil then T1
+    []'|' (1:h 2:T) then S in
+    if((H mod 2) == 1) then 
+      S = {Filter T T1}
+          S 
+          else 
+              S = {Filter T T1}
+              (H|S)
+      end 
+    end 
+    end 
+    Out = {Filter P nil}
+end
+
+// Example Testing
+N = 0
+L = 100  
+{Producer N L P} // [0 1 2 .. 100]
+{OddFilter P F} // [0 2 4 .. 100]

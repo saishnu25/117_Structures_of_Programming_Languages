@@ -1,0 +1,1 @@
+[local ["X","Y","T"] [thread [Y = X],X = 3,skip/BY],local ["T1","T2"] [thread [T2 = 3],thread [local ["EXU1","EXU2"] [EXU1 = 4,EXU2 = 3,"IntPlus" "EXU1" "EXU2" "T1"]],skip/BT2,skip/BT1]]

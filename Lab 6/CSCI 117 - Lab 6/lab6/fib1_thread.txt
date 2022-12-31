@@ -1,0 +1,14 @@
+local Fib X Result in
+  Fib = fun {$ In}
+    if (In == 0) then 
+      1
+    elseif (In == 1) then
+      1
+    else
+      (thread {Fib (In-1)} end + thread {Fib (In - 2)} end)
+    end
+  end
+  X = 8
+  Result = {Fib X}
+  skip Browse Result
+end

@@ -1,0 +1,31 @@
+local Z in 
+  Z = 3
+  thread local X in 
+    X = 1
+    skip Browse X
+    skip Browse X
+	skip Basic
+    skip Browse X
+    skip Browse X
+	skip Basic
+    skip Browse X
+    end
+  end
+  thread local Y in
+    Y = 2 
+    skip Browse Y
+	skip Basic
+    skip Browse Y
+    skip Browse Y
+	skip Basic
+    skip Browse Y
+    skip Browse Y
+    end
+  end
+  skip Browse Z
+  skip Browse Z
+  skip Browse Z
+	skip Basic
+  skip Browse Z
+  skip Browse Z
+ end

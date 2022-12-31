@@ -1,0 +1,65 @@
+local GateMaker AndG OrG NotG A B S IntToNeed Out MulPlex in 
+        
+  fun {GateMaker F}
+     fun {$ Xs Ys} GateLoop T in
+        fun {GateLoop Xs Ys}
+           case Xs of nil then nil
+                   [] '|'(1:X 2:Xr) then
+                      case Ys of nil then nil
+                              [] '|'(1:Y 2:Yr) then
+                                  ({F X Y}|{GateLoop Xr Yr})
+                      end
+           end
+        end
+        T = thread {GateLoop Xs Ys}   // thread isn't (yet) a returnable expression
+        T
+     end
+  end
+
+  fun {NotG Xs} NotLoop T in
+     fun {NotLoop Xs}
+        case Xs of nil then nil
+                [] '|'(1:X 2:Xr) then ((1-X)|{NotLoop Xr})
+        end
+     end
+     T = thread {NotLoop Xs} end          // thread isn't (yet) a returnable expression
+     T
+  end
+
+  AndG = {GateMaker fun {$ X Y} if (X == 0) then 0 else (X*Y) end end }
+  OrG =  {GateMaker fun {$X Y} if (X == 1) then 1 else (X+Y) end end}
+        
+  fun {IntToNeed L}
+     case L of nil then nil 
+     [] '|' (1:X 2:Xr) then T W in 
+         byNeed fun {$} X end W 
+         T = {IntToNeed Xr}
+         (W|T)
+         end
+  end
+
+  fun {MulPlex A B S} R Z T W in
+    R = {NotG S}
+    Z = {AndG R A}
+    T = {AndG S B}
+    W = {OrG Z T}
+    W
+  end
+
+  A = {IntToNeed [0 1 1 0 0 1]}
+  B = {IntToNeed [1 1 1 0 1 0]}
+  S = [1 0 1 0 1 1]
+  Out = {MulPlex A B S}
+
+  // run a loop so the MulPlex threads can finish before displaying Out
+  local Loop in
+     proc {Loop X}
+        if (X == 0) then skip Basic
+        else {Loop (X-1)} end
+     end
+    {Loop 1000}
+  end
+
+  skip Browse Out
+
+end

@@ -1,0 +1,119 @@
+// Generate example from class
+// First function multiplies all elements of a list by constant
+local X Y Generate Display DisplayHamming in 
+fun {Generate N} 
+  fun {$} (N#{Generate (N+1)}) end
+end
+
+proc {Display X N}
+  fun{DisplayHamming Z Num}
+  if(Num == 0) then nil
+    else
+    (V#F) = {Z} in 
+    (V|{DisplayHamming F (Num - 1)})
+    end 
+  end 
+
+local L in 
+  L = {DisplayHamming X N}
+  skip Browse L 
+  end 
+end 
+
+//Times Generator 
+local X Y Generate Display DisplayHamming Times in 
+fun {Generate N} 
+  fun {$} (N#{Generate (N+1)}) end
+end
+
+fun {Times X Y}
+fun {$}
+    (V#F) = {X} in 
+    ((V*Y) # {Times F Y})
+  end 
+end 
+
+proc {Display X N}
+  fun{DisplayHamming Z Num}
+    if(Num == 0) then nil 
+      else 
+      (V#F) = {Z} in 
+      (V|{DisplayHamming F (Num - 1)})
+      end 
+    end 
+local L in 
+  L = {DisplayHamming X N}
+  skip Browse L 
+  end 
+end 
+
+//Merge Generator 
+local X Y Generate Display DisplayHamming Merge Times H in 
+  fun {Generate N}
+    fun{$}(N#{Generate(N+1)}) end 
+    end 
+  fun {Times X Y}
+    fun {$}
+        (V#F) = {X} in 
+        ((V*Y)#{Times F Y})
+    end 
+  end 
+
+  Merge = fun {$ X Y}
+  fun {$}
+  (V#F) = {X}
+  (U#H) = {Y} in 
+      if (V < U) then (V#{Merge F Y})
+      else 
+        if(V > U) then (U#{Merge X H}) 
+      else (V#{Merge F H}) 
+        end 
+      end 
+    end 
+
+H = fun {$} (1# {Merge {Times H 2}{Merge {Times H 3} {Times H 5}}}) 
+
+end 
+
+proc {Display X N}
+  fun {DisplayHamming Z Num}
+    if(Num == 0) then nil 
+    else 
+    (V#F) = {Z} in 
+    (V|{DisplayHamming F (Num-1)})
+  end 
+end
+  local L in 
+    L = {DisplayHamming X N}
+    skip Browse L  
+  end 
+end 
+
+fun{Take N G}
+  if(N <= 0) then []
+  else 
+    (M#H) = {G} in 
+    M|{Take N-1 H}
+  end 
+end 
+    
+// Interleave example from class
+fun {Zip X Y}
+  fun {$} 
+    (V#F) = {X} in
+    (V#{Zip Y F})
+  end
+end
+
+// Testing
+X = {Generate 3}   // 3, 4, 5, ...
+Y = {Generate 5}   // 5, 6, 7, ...
+Z = {Zip X Y}      // 3, 5, 4, 6, 5, 7, ...
+  local 
+    (V1#F1) = {Z}
+    (V2#F2) = {F1}
+    (V3#F3) = {F2} in
+      skip Browse V1 // 3 from X
+      skip Browse V2 // 5 from Y
+      skip Browse V3 // 4 from X
+  end

@@ -1,0 +1,15 @@
+qs(Xs, Ys):- qsd(Xs, Ys,[]).
+
+	qsd([X|Xs], As, Cs):-
+	split(X, Xs, Ys, Zs),
+	qs(Ys, As, Bs),
+	qs(Zs, [X|Bs], Cs).
+
+
+
+split(X, [Y|Ys], {Y|Us], Vs):-
+	Y =< X, !,
+	split(X, Ys, Us, Vs).
+
+split(X, [Y|Ys], Us, [Y|Vs]):-
+	split(X, Ys, Us, Vs). 

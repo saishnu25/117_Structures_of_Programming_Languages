@@ -1,0 +1,11 @@
+local B in
+  thread            // S1
+    B=true          // T1
+  end
+  thread            // S2
+    B=false         // T2
+  end
+  if B then         // S3
+    skip Browse B   // S3.1
+  end
+end

@@ -1,0 +1,1 @@
+[local ["B"] [thread [B = true()],thread [B = false()]]]

@@ -1,0 +1,22 @@
+//Part 2a
+fun {IntToNeed L}
+    case L of nil then nil 
+    []'|' (1:X 2:Xr) then T W in 
+        byNeed fun {$} X end W
+        T = {IntToNeed Xr}
+        (W|T)
+    end 
+end 
+
+//Part 2b
+AndG = {GateMaker fun {$ X Y} if (X == 0) then 0 else (X*Y) end end }
+OrG =  {GateMaker fun {$X Y} if (X == 1) then 1 else (X+Y) end end}
+
+//Part 2c
+fun {MulPlex A B S} R Z T W in
+    R = {NotG S}
+    Z = {AndG R A}
+    T = {AndG S B}
+    W = {OrG Z T}
+    W
+end

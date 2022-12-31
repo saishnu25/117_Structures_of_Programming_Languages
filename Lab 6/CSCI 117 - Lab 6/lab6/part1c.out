@@ -1,0 +1,1 @@
+[local ["Z"] [Z = 3,thread [local ["X"] [X = 1,skip/BX,skip/BX,skip,skip/BX,skip/BX,skip,skip/BX]],thread [local ["Y"] [Y = 2,skip/BY,skip,skip/BY,skip/BY,skip,skip/BY,skip/BY]],skip/BZ,skip/BZ,skip/BZ,skip,skip/BZ,skip/BZ]]
